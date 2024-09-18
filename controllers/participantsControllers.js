@@ -1,8 +1,11 @@
-import * as participantsService from "../services/participantsServices.js";
+import {
+  getParticipantsService,
+  addParticipantService,
+} from "../services/participantsServices.js";
 import controllerWrapper from "../helpers/controllerWrapper.js";
 
 const getAllParticipants = async (req, res, next) => {
-  const participants = await participantsService.getAllBooks();
+  const participants = await getParticipantsService();
   res
     .status(200)
     .json({ message: "Participants get succesfully", participants });
@@ -10,7 +13,7 @@ const getAllParticipants = async (req, res, next) => {
 
 const addParticipant = async (req, res, next) => {
   const { _id } = req.params;
-  const participant = await participantsService.addParticipant({
+  const participant = await addParticipantService({
     ...req.body,
     _id,
   });

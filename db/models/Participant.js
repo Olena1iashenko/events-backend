@@ -22,7 +22,7 @@ const participantSchema = new Schema(
     },
     heardAboutEvent: {
       type: String,
-      enum: ["Social media", "Frinds", "Found myself"],
+      enum: ["Social media", "Friends", "Found myself"],
       default: "Social media",
       required: true,
     },

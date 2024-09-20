@@ -1,6 +1,6 @@
 import express from "express";
 import eventsRouter from "./routes/eventsRouter.js";
-import participantsRouter from "./routes/participantsRouter.js";
+// import participantsRouter from "./routes/participantsRouter.js";
 import cors from "cors";
 
 const startServer = () => {
@@ -9,7 +9,7 @@ const startServer = () => {
   };
 
   const app = express();
-  const port = 3000;
+  const port = process.env.PORT || 3000;
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(cors(corsOptions));
@@ -19,7 +19,7 @@ const startServer = () => {
   });
 
   app.use("/events", eventsRouter);
-  app.use("/participants", participantsRouter);
+  // app.use("/participants", participantsRouter);
 
   app.use((_, res) => {
     res.status(404).json({ message: "Route not found" });

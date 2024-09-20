@@ -5,13 +5,13 @@ const eventsRouter = express.Router();
 
 eventsRouter.get("/", eventsControllers.getAllEvents);
 
-// Додаємо нового учасника до події
+eventsRouter.get("/:eventId", eventsControllers.getEventById);
+
 eventsRouter.post(
   "/:eventId/participants",
   eventsControllers.addParticipantToEvent
 );
 
-// Отримуємо учасників конкретної події
 eventsRouter.get(
   "/:eventId/participants",
   eventsControllers.getEventParticipants

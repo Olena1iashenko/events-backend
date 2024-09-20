@@ -1,13 +1,29 @@
 import Event from "../db/models/Event.js";
 import Participant from "../db/models/Participant.js";
 
-export const getEventsService = async () => {
+export const getEventsService = async (page, limit) => {
   try {
-    const events = await Event.find();
-    return events;
+    const skip = (page - 1) * limit;
+    const events = await Event.find().skip(skip).limit(limit).exec();
+    const totalEvents = await Event.countDocuments();
+    const totalPages = Math.ceil(totalEvents / limit);
+    return { events, totalPages, totalEvents };
   } catch (error) {
     console.error("Error fetching events:", error);
     throw new Error("Could not fetch events. Please try again later.");
+  }
+};
+
+export const getEventByIdService = async (eventId) => {
+  try {
+    const event = await Event.findById(eventId);
+    if (!event) {
+      throw new Error(`Event with ID ${eventId} not found`);
+    }
+    return event;
+  } catch (error) {
+    console.error(`Error fetching event with ID ${eventId}:`, error);
+    throw new Error("Could not fetch the event. Please try again later.");
   }
 };
 

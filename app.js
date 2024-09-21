@@ -6,7 +6,7 @@ const startServer = () => {
   const corsOptions = {
     origin: (origin, callback) => {
       const allowedOrigins = [
-        "https://events-jade-rho.vercel.app/",
+        "https://events-jade-rho.vercel.app",
         "http://localhost:5173",
       ];
       if (!origin || allowedOrigins.indexOf(origin) !== -1) {

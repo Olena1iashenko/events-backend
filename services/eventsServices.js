@@ -1,12 +1,28 @@
 import Event from "../db/models/Event.js";
 import Participant from "../db/models/Participant.js";
 
-export const getEventsService = async (page, limit) => {
+export const getEventsService = async (page, limit, sortBy) => {
   try {
     const skip = (page - 1) * limit;
-    const events = await Event.find().skip(skip).limit(limit).exec();
+    const sortOptions = {};
+
+    if (sortBy === "title") {
+      sortOptions.title = 1;
+    } else if (sortBy === "eventDate") {
+      sortOptions.eventDate = 1;
+    } else if (sortBy === "organizer") {
+      sortOptions.organizer = 1;
+    }
+    console.log("sortBy", sortBy);
+    console.log("sortOptions", sortOptions);
+    const events = await Event.find()
+      .sort(sortOptions)
+      .skip(skip)
+      .limit(limit)
+      .exec();
     const totalEvents = await Event.countDocuments();
     const totalPages = Math.ceil(totalEvents / limit);
+
     return { events, totalPages, totalEvents };
   } catch (error) {
     console.error("Error fetching events:", error);
@@ -48,7 +64,7 @@ export const addParticipantToEventService = async (
   }
 };
 
-export const getEventParticipantsService = async (eventId) => {
+export const getEventParticipantsService = async (eventId, query) => {
   try {
     const event = await Event.findById(eventId).populate("participants");
     if (!event) {

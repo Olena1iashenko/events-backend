@@ -9,9 +9,11 @@ import controllerWrapper from "../helpers/controllerWrapper.js";
 const getAllEvents = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 8;
+  const sortBy = req.query.sortBy;
   const { events, totalPages, totalEvents } = await getEventsService(
     page,
-    limit
+    limit,
+    sortBy
   );
   res.status(200).json({
     message: "Events get succesfully",

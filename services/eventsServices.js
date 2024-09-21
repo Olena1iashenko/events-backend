@@ -13,8 +13,7 @@ export const getEventsService = async (page, limit, sortBy) => {
     } else if (sortBy === "organizer") {
       sortOptions.organizer = 1;
     }
-    console.log("sortBy", sortBy);
-    console.log("sortOptions", sortOptions);
+
     const events = await Event.find()
       .sort(sortOptions)
       .skip(skip)

@@ -1,11 +1,22 @@
 import express from "express";
 import eventsRouter from "./routes/eventsRouter.js";
-// import participantsRouter from "./routes/participantsRouter.js";
 import cors from "cors";
 
 const startServer = () => {
   const corsOptions = {
-    origin: "*",
+    origin: (origin, callback) => {
+      const allowedOrigins = [
+        "https://events-jade-rho.vercel.app/",
+        "http://localhost:5173",
+      ];
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS not allowed for this origin"));
+      }
+    },
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
   };
 
   const app = express();
@@ -19,7 +30,6 @@ const startServer = () => {
   });
 
   app.use("/events", eventsRouter);
-  // app.use("/participants", participantsRouter);
 
   app.use((_, res) => {
     res.status(404).json({ message: "Route not found" });

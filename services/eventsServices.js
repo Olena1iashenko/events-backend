@@ -48,15 +48,13 @@ export const addParticipantToEventService = async (
   participantData
 ) => {
   try {
-    // Створюємо нового учасника
     const newParticipant = await Participant.create(participantData);
 
-    // Знайдемо подію за її ID і додамо учасника до масиву participants
     const updatedEvent = await Event.findByIdAndUpdate(
-      eventId, // ID події
-      { $push: { participants: newParticipant._id } }, // Додаємо ID учасника до масиву
-      { new: true } // Повертаємо оновлену подію
-    ).populate("participants"); // Опціонально, якщо ви хочете повернути інформацію про учасників
+      eventId,
+      { $push: { participants: newParticipant._id } },
+      { new: true }
+    ).populate("participants");
 
     return updatedEvent;
   } catch (error) {
@@ -64,7 +62,7 @@ export const addParticipantToEventService = async (
   }
 };
 
-export const getEventParticipantsService = async (eventId, query) => {
+export const getEventParticipantsService = async (eventId) => {
   try {
     const event = await Event.findById(eventId).populate("participants");
     if (!event) {

@@ -36,7 +36,6 @@ export const getEventById = async (req, res) => {
   res.status(200).json(event);
 };
 
-// Контролер для додавання нового учасника до події
 const addParticipantToEvent = async (req, res) => {
   const { eventId } = req.params;
   const participantData = req.body;
@@ -48,7 +47,6 @@ const addParticipantToEvent = async (req, res) => {
   res.status(200).json(updatedEvent);
 };
 
-// Контролер для отримання учасників події
 const getEventParticipants = async (req, res) => {
   const { eventId } = req.params;
 

@@ -62,13 +62,30 @@ export const addParticipantToEventService = async (
   }
 };
 
-export const getEventParticipantsService = async (eventId) => {
+export const getEventParticipantsService = async (eventId, query) => {
   try {
     const event = await Event.findById(eventId).populate("participants");
     if (!event) {
       throw new Error("Event not found");
     }
-    return event.participants;
+    const participants = event.participants || [];
+    const result = participants.filter(
+      (participant) =>
+        participant.fullName
+          .toLowerCase()
+          .trim()
+          .includes(query.toLowerCase().trim()) ||
+        participant.email
+          .toLowerCase()
+          .trim()
+          .includes(query.toLowerCase().trim())
+    );
+
+    if (result.length === 0) {
+      throw new Error("No participants found. Try another search");
+    }
+
+    return result;
   } catch (error) {
     throw new Error(`Error fetching participants: ${error.message}`);
   }

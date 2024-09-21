@@ -49,8 +49,9 @@ const addParticipantToEvent = async (req, res) => {
 
 const getEventParticipants = async (req, res) => {
   const { eventId } = req.params;
+  const { query } = req.query;
 
-  const participants = await getEventParticipantsService(eventId);
+  const participants = await getEventParticipantsService(eventId, query);
   res.status(200).json(participants);
 };
 

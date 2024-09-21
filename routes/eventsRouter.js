@@ -13,7 +13,7 @@ eventsRouter.post(
 );
 
 eventsRouter.get(
-  "/:eventId/participants",
+  "/:eventId/participants/search",
   eventsControllers.getEventParticipants
 );
 
